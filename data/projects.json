@@ -1,0 +1,150 @@
+[
+  {
+    "id": "7hmY9J0E3AYIjvww5WVEN",
+    "title": "AI Portfolio Chat",
+    "description": "Personal website featuring an AI-powered chat interface built with Next.js, TypeScript, and local LLM integration. Implements RAG (Retrieval Augmented Generation) for accurate information retrieval from a structured knowledge base. Features dark mode design, responsive UI, and seamless content management through Markdown files.",
+    "tech": [
+      "Next.js",
+      "TypeScript",
+      "Ollama",
+      "Tailwind CSS",
+      "RAG",
+      "Markdown",
+      "Docker"
+    ],
+    "features": [
+      "Local LLM integration via Ollama, RAG system for context retrieval, Dark mode optimized interface, Responsive design, Markdown-based knowledge base, Docker containerization"
+    ],
+    "github": "https://github.com/jessedwyatt1/jessedwyatt_com",
+    "live": "https://jessedwyatt.com",
+    "isPublic": true,
+    "blogUrl": "/blog/post/2024/12/portfolio"
+  },
+  {
+    "id": "GHwy1xGQjN_YGZrvNCzN5",
+    "title": "MealForks.com",
+    "description": "A vibrant culinary community platform where users can share recipes, create collections, and engage in cooking challenges. Features include recipe forking (creating variations), private/public collections, and a ranking system for user engagement.",
+    "tech": [
+      "Next.js",
+      "React",
+      "Redux Toolkit",
+      "Chakra UI",
+      "Formik",
+      "Google Analytics",
+      "Facebook SDK"
+    ],
+    "features": [
+      "Recipe sharing and forking system",
+      "User collections and folders",
+      "Rating and review system",
+      "User progression/ranking system",
+      "Responsive design",
+      "Social media integration"
+    ],
+    "live": "https://mealforks.com",
+    "isPublic": false,
+    "privateReason": "Protected IP and client data"
+  },
+  {
+    "id": "kL9mN4pQ2rS5vW8xY1zA",
+    "title": "Cinematix",
+    "description": "A modern, AI-powered movie collection manager and Transmission interface built with React, TypeScript, and Tailwind CSS. Features intelligent movie organization through Plex integration, automated collection management via local LLM (Ollama), and real-time statistics. Implements a beautiful dark mode interface with responsive design and smooth animations.",
+    "tech": [
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Ollama",
+      "Plex API",
+      "WebSocket",
+      "Framer Motion",
+      "Docker"
+    ],
+    "features": [
+      "AI-powered smart collections via Ollama, Real-time torrent management, Plex media server integration, Advanced movie search and filtering, Beautiful dark mode interface, Real-time transfer statistics, Responsive dashboard design, Docker containerization"
+    ],
+    "github": "https://github.com/jessedwyatt1/cinematix",
+    "isPublic": true,
+    "blogUrl": "/blog/post/2024/12/cinematix"
+  },
+  {
+    "id": "bC3dF6gH9jK2mN5pQ8rT",
+    "title": "STIG Compliance Analyzer",
+    "description": "A security compliance analysis tool built with Python and Streamlit that processes and validates Windows 11 STIG requirements against system configurations. Features an interactive web interface for analyzing XML-based security guidelines and provides automated assessment capabilities for DoD security standards compliance.",
+    "tech": [
+      "Python",
+      "Streamlit",
+      "XML Processing",
+      "XCCDF",
+      "Security Automation",
+      "NIST Standards",
+      "CPE",
+      "pandas",
+      "lxml",
+      "Docker"
+    ],
+    "features": [
+      "Interactive web dashboard",
+      "Real-time STIG requirement parsing",
+      "Automated compliance checking",
+      "XML validation and processing",
+      "Export capabilities for findings",
+      "Responsive UI with Streamlit",
+      "Docker containerization"
+    ],
+    "github": "https://github.com/yourusername/stig-analyzer",
+    "live": "https://stig-analyzer.yourdomain.com",
+    "isPublic": false,
+    "privateReason": "Contains sensitive security implementations"
+  },
+  {
+    "id": "wX4yZ7aB0cD3eF6gH9iJ",
+    "title": "Streaming Analytics Platform",
+    "description": "Advanced analytics and management platform built with React and TypeScript. Features real-time performance monitoring, comprehensive SEO management, and partnership analytics. Implements dynamic data visualization using Recharts, with modular component architecture and responsive design patterns.",
+    "tech": [
+      "React",
+      "TypeScript",
+      "Recharts",
+      "Framer Motion",
+      "TailwindCSS",
+      "MongoDB",
+      "Redis",
+      "Express"
+    ],
+    "features": [
+      "Real-time performance monitoring and analytics",
+      "Advanced SEO management system",
+      "Partnership insights and metrics tracking",
+      "Dynamic data visualization dashboards",
+      "Responsive admin interface",
+      "Multi-level caching strategy",
+      "Automated testing framework",
+      "Comprehensive API integration"
+    ],
+    "isPublic": false,
+    "privateReason": "Protected client IP and analytics logic"
+  },
+  {
+    "id": "tU5vW8xY1zA4bC7dF0gH",
+    "title": "Ollama Load Balancer",
+    "description": "A dynamic load balancer for distributing requests across multiple Ollama LLM instances. Features intelligent request routing, real-time monitoring, and comprehensive instance management. Implements multiple load balancing strategies and provides a rich CLI interface for system administration.",
+    "tech": [
+      "Python",
+      "Ollama",
+      "YAML",
+      "Rich CLI",
+      "Threading",
+      "REST API",
+      "Concurrent Processing"
+    ],
+    "features": [
+      "Multiple load balancing strategies (Round Robin, Weighted Response Time, etc.)",
+      "Real-time instance health monitoring",
+      "Rich terminal UI with live statistics",
+      "Dynamic instance management",
+      "Graceful maintenance mode and request draining",
+      "YAML-based configuration",
+      "Comprehensive metrics collection"
+    ],
+    "isPublic": true
+  }
+]

@@ -1,17 +1,44 @@
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, Calendar, Github, ExternalLink } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Markdown } from "@/components/markdown";
-import { getBlogPost } from "@/lib/blog/utils";
+import { getBlogPost, getBlogPosts } from "@/lib/blog/utils";
 
-export default async function BlogPostPage({
-  params: { slug },
-}: {
-  params: { slug: string };
-}) {
-  const post = await getBlogPost(slug);
-  
+interface PageProps {
+  params: Promise<{ slug: string[] }>;
+}
+
+export async function generateStaticParams() {
+  const posts = await getBlogPosts();
+  return posts.map((post) => ({
+    slug: post.slug.split('/')
+  }));
+}
+
+export async function generateMetadata(
+  props: PageProps
+): Promise<Metadata> {
+  const { slug } = await props.params;
+  const post = await getBlogPost(slug.join('/'));
+
+  if (!post) {
+    return {
+      title: 'Post Not Found',
+    };
+  }
+
+  return {
+    title: post.title,
+    description: post.description,
+  };
+}
+
+export default async function BlogPostPage(props: PageProps) {
+  const { slug } = await props.params;
+  const post = await getBlogPost(slug.join('/'));
+
   if (!post) {
     notFound();
   }
@@ -69,4 +96,4 @@ export default async function BlogPostPage({
       </div>
     </div>
   );
-} 
+}

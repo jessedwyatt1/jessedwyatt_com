@@ -78,7 +78,7 @@ export function NavMenu() {
                 <>
                   <Link href="/admin/settings" onClick={() => setIsMobileMenuOpen(false)} className="w-full max-w-[200px]">
                     <Button variant="ghost" className="w-full justify-end">
-                      Settings
+                      Admin
                     </Button>
                   </Link>
                   <div className="w-full max-w-[200px]">

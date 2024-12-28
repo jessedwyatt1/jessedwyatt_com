@@ -23,4 +23,8 @@ export interface BlogPostMeta {
     github?: string;
     live?: string;
   };
-} 
+}
+
+export type BlogParams = Promise<{
+  slug: string[];
+}>; 

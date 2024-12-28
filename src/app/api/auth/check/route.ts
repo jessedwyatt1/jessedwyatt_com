@@ -1,11 +1,15 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
+import { checkServerAuth } from '@/lib/auth-server';
 
-export async function GET(request: NextRequest) {
-  const authToken = request.cookies.get('auth_token');
-
-  if (authToken?.value === 'authenticated') {
-    return new NextResponse(null, { status: 200 });
+export async function GET() {
+  const isAuthenticated = await checkServerAuth();
+  
+  if (isAuthenticated) {
+    return NextResponse.json({ authenticated: true });
   }
-
-  return new NextResponse(null, { status: 401 });
+  
+  return NextResponse.json(
+    { authenticated: false },
+    { status: 401 }
+  );
 } 

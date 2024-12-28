@@ -43,14 +43,12 @@ function buildTableOfContents(tokens: MarkedToken[]): TOCItem[] {
         children: []
       };
 
-      // Pop stack items until we find the appropriate parent level
       while (stack.length > 1 && stack[stack.length - 1].depth >= depth) {
         stack.pop();
       }
 
       stack[stack.length - 1].items.push(item);
 
-      // Only push to stack if it's not the deepest level we want to track
       if (depth < 3) {
         stack.push({ items: item.children, depth });
       }
@@ -64,19 +62,16 @@ export function Markdown({ content }: MarkdownProps) {
   const [activeId, setActiveId] = useState<string>('');
   
   const { html, tableOfContents } = useMemo(() => {
-    // Split content into lines and remove the first H1 heading
-    const lines = content.split('\n');
-    let firstH1Found = false;
-    const filteredLines = lines.filter(line => {
-      if (!firstH1Found && line.trim().startsWith('# ')) {
-        firstH1Found = true;
-        return false;
-      }
-      return true;
-    });
-
-    // Process the filtered content
-    const tokens = marked.lexer(filteredLines.join('\n'));
+    const tokens = marked.lexer(content);
+    
+    // Find and remove the first h1 token
+    const firstH1Index = tokens.findIndex(token => 
+      token.type === 'heading' && token.depth === 1
+    );
+    if (firstH1Index !== -1) {
+      tokens.splice(firstH1Index, 1);
+    }
+    
     const toc = buildTableOfContents(tokens);
     const html = marked.parser(tokens);
     
@@ -108,10 +103,12 @@ export function Markdown({ content }: MarkdownProps) {
 
   return (
     <div className="relative lg:flex lg:gap-12">
-      <article 
-        className="prose prose-invert max-w-none flex-1"
-        dangerouslySetInnerHTML={{ __html: html }}
-      />
+      {/* Main content */}
+      <article className="prose prose-invert max-w-none flex-1">
+        <div dangerouslySetInnerHTML={{ __html: html }} />
+      </article>
+
+      {/* Table of Contents sidebar */}
       <aside className="hidden lg:block w-64 relative">
         <div className="sticky top-24 toc-nav">
           <h3 className="font-semibold mb-4">Table of Contents</h3>
@@ -120,4 +117,4 @@ export function Markdown({ content }: MarkdownProps) {
       </aside>
     </div>
   );
-} 
+}

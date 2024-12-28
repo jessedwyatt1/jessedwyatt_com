@@ -9,6 +9,8 @@ ITEMS=(
     "src"
     "public"
     "knowledge_base"
+    "content"
+    "data"
     "package.json"
     "package-lock.json"
     "next.config.ts"
@@ -18,6 +20,7 @@ ITEMS=(
     "docker-compose.yml"
     "Dockerfile"
     ".env.local"
+    "eslint.config.mjs"
 )
 
 # Copy each item to deployment directory
