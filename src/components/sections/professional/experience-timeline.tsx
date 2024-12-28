@@ -1,11 +1,11 @@
 "use client"
 
 import { Badge } from "@/components/ui/badge"
-import { useState } from "react"
+import { useState, forwardRef } from "react"
 import { ChevronDown, ChevronUp } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
-export function ExperienceTimeline() {
+export const ExperienceTimeline = forwardRef<HTMLDivElement>((props, ref) => {
   const [isExpanded, setIsExpanded] = useState(false)
 
   const experiences = [
@@ -85,7 +85,7 @@ export function ExperienceTimeline() {
   const visibleExperiences = isExpanded ? experiences : experiences.slice(0, 2)
 
   return (
-    <section className="py-16 bg-muted/50">
+    <section ref={ref} id="professional-experience" className="py-16 bg-muted/50">
       <div className="container">
         <h2 className="text-3xl font-bold text-center mb-12">Professional Experience</h2>
         <div className="max-w-3xl mx-auto">
@@ -130,4 +130,6 @@ export function ExperienceTimeline() {
       </div>
     </section>
   )
-} 
+})
+
+ExperienceTimeline.displayName = 'ExperienceTimeline' 

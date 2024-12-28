@@ -9,63 +9,50 @@ import { useLoginModal } from '@/components/auth/login-modal-context';
 
 export function NavMenu() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { openModal } = useLoginModal();
   const { isLoggedIn, logout } = useAuth();
+  const { openModal } = useLoginModal();
 
   return (
     <>
-      {/* Mobile Menu Button */}
-      <div className="md:hidden">
-        <Button
-          variant="ghost"
-          size="sm"
-          className="text-primary hover:text-primary/80 hover:bg-primary/10"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        >
-          {isMobileMenuOpen ? (
-            <X className="h-6 w-6" />
-          ) : (
-            <Menu className="h-6 w-6" />
-          )}
-        </Button>
-      </div>
-
-      {/* Desktop Navigation */}
-      <div className="hidden md:flex items-center gap-4">
-        <div className="flex items-center gap-2 mr-4">
-          <Link href="/">
-            <Button variant="ghost" className="text-primary hover:text-primary/80 hover:bg-primary/10">
-              Professional
-            </Button>
-          </Link>
-          <Link href="/personal">
-            <Button variant="ghost" className="text-primary hover:text-primary/80 hover:bg-primary/10">
-              Personal
-            </Button>
-          </Link>
-        </div>
-
+      {/* Desktop Menu */}
+      <nav className="hidden md:flex items-center gap-2">
+        <Link href="/">
+          <Button variant="ghost">Professional</Button>
+        </Link>
+        <Link href="/personal">
+          <Button variant="ghost">Personal</Button>
+        </Link>
+        <Link href="/blog">
+          <Button variant="ghost">Blog</Button>
+        </Link>
         {isLoggedIn ? (
           <>
             <Link href="/admin/settings">
-              <Button variant="ghost" className="text-primary hover:text-primary/80 hover:bg-primary/10">
-                Settings
-              </Button>
+              <Button variant="ghost">Settings</Button>
             </Link>
-            <Button variant="ghost" onClick={logout} className="text-primary hover:text-primary/80 hover:bg-primary/10">
+            <Button variant="ghost" onClick={logout}>
               Logout
             </Button>
           </>
         ) : (
-          <Button 
-            variant="ghost" 
-            onClick={() => openModal()}
-            className="text-primary hover:text-primary/80 hover:bg-primary/10"
-          >
+          <Button variant="ghost" onClick={openModal}>
             Login
           </Button>
         )}
-      </div>
+      </nav>
+
+      {/* Mobile Menu Toggle */}
+      <button
+        className="md:hidden"
+        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        aria-label="Toggle menu"
+      >
+        {isMobileMenuOpen ? (
+          <X className="h-6 w-6" />
+        ) : (
+          <Menu className="h-6 w-6" />
+        )}
+      </button>
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
@@ -80,6 +67,11 @@ export function NavMenu() {
               <Link href="/personal" onClick={() => setIsMobileMenuOpen(false)} className="w-full max-w-[200px]">
                 <Button variant="ghost" className="w-full justify-end">
                   Personal
+                </Button>
+              </Link>
+              <Link href="/blog" onClick={() => setIsMobileMenuOpen(false)} className="w-full max-w-[200px]">
+                <Button variant="ghost" className="w-full justify-end">
+                  Blog
                 </Button>
               </Link>
               {isLoggedIn ? (

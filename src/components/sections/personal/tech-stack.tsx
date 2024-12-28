@@ -1,26 +1,36 @@
-import { Code2, Terminal, Database, Cloud } from "lucide-react"
+import { Code2, Terminal, Database, Cloud, Server, Shield } from "lucide-react"
 
 export function TechStack() {
   const categories = [
     {
       title: "Languages",
       icon: Code2,
-      items: ["TypeScript", "Python", "Go", "Rust"]
+      items: ["TypeScript", "Python", "Go", "Rust", "Shell Script"]
     },
     {
       title: "Frontend",
       icon: Terminal,
-      items: ["React", "Next.js", "Tailwind CSS", "Framer Motion"]
+      items: ["React", "Next.js", "Tailwind CSS", "Framer Motion", "Redux Toolkit", "Chakra UI"]
     },
     {
-      title: "Backend",
+      title: "Backend & Data",
       icon: Database,
-      items: ["Node.js", "FastAPI", "PostgreSQL", "Redis"]
+      items: ["Node.js", "FastAPI", "PostgreSQL", "Redis", "MongoDB", "Vector DBs"]
     },
     {
       title: "Infrastructure",
       icon: Cloud,
-      items: ["Docker", "Kubernetes", "AWS", "Terraform"]
+      items: ["Docker", "Kubernetes", "Proxmox", "Nginx", "Terraform"]
+    },
+    {
+      title: "DevOps & Monitoring",
+      icon: Server,
+      items: ["Portainer", "Ansible", "Prometheus", "Grafana", "CI/CD"]
+    },
+    {
+      title: "Security & IAM",
+      icon: Shield,
+      items: ["Keycloak", "OpenSCAP", "STIG", "OAuth2", "Zero Trust"]
     }
   ]
 
@@ -33,7 +43,7 @@ export function TechStack() {
         <p className="text-center text-muted-foreground mb-12">
           Technologies I love working with
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {categories.map((category, index) => (
             <div 
               key={index}

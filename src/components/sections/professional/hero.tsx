@@ -1,7 +1,20 @@
-import { Button } from "@/components/ui/button"
-import { Shield, Server, Code } from "lucide-react"
+"use client"
 
-export function HeroSection() {
+import { Button } from "@/components/ui/button"
+import { Github, Shield, Server, Code } from "lucide-react"
+import { RefObject } from "react"
+
+interface HeroSectionProps {
+  experienceRef: RefObject<HTMLDivElement | null>
+}
+
+export function HeroSection({ experienceRef }: HeroSectionProps) {
+  const handleScrollToExperience = () => {
+    if (experienceRef.current) {
+      experienceRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <section className="py-20">
       <div className="container">
@@ -14,8 +27,13 @@ export function HeroSection() {
             Risk Management Framework (RMF), and System Security Architecture
           </p>
           <div className="flex justify-center gap-4 mb-12">
-            <Button size="lg">View Experience</Button>
-            <Button size="lg" variant="secondary">Download Resume</Button>
+            <Button size="lg" onClick={handleScrollToExperience}>View Experience</Button>
+            <a href="https://github.com/jessedwyatt1/jessedwyatt_com" target="_blank" rel="noopener noreferrer">
+              <Button size="lg" variant="secondary" className="gap-2">
+                <Github className="w-4 h-4" />
+                View Page Repo
+              </Button>
+            </a>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="flex flex-col items-center">

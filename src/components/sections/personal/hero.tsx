@@ -13,10 +13,12 @@ export function PersonalHero() {
             A collection of personal projects, experiments, and open source contributions
           </p>
           <div className="flex justify-center gap-4 mb-12">
-            <Button size="lg" className="gap-2">
-              <Github className="w-4 h-4" />
-              View GitHub
-            </Button>
+            <a href="https://github.com/jessedwyatt1/jessedwyatt_com" target="_blank" rel="noopener noreferrer">
+              <Button size="lg" className="gap-2">
+                <Github className="w-4 h-4" />
+                View GitHub
+              </Button>
+            </a>
             <Button size="lg" variant="secondary" className="gap-2">
               <ExternalLink className="w-4 h-4" />
               Live Demos

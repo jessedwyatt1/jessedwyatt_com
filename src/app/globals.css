@@ -59,3 +59,69 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Custom styling for markdown content */
+.prose pre {
+  background-color: theme('colors.slate.900') !important;
+  border: 1px solid theme('colors.slate.800');
+  border-radius: theme('borderRadius.lg');
+}
+
+.prose code {
+  background-color: theme('colors.slate.900');
+  padding: 0.2em 0.4em;
+  border-radius: theme('borderRadius.sm');
+  font-size: 0.875em;
+}
+
+.prose a {
+  color: theme('colors.blue.400');
+  text-decoration: none;
+}
+
+.prose a:hover {
+  color: theme('colors.blue.300');
+}
+
+.prose img {
+  border-radius: theme('borderRadius.lg');
+  margin: 2rem auto;
+}
+
+.prose blockquote {
+  border-left-color: theme('colors.blue.400');
+  background-color: theme('colors.slate.900');
+  padding: 1rem 1.5rem;
+  border-radius: theme('borderRadius.lg');
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+/* Add these styles */
+.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+  scroll-margin-top: 100px;
+}
+
+/* Table of Contents Styles */
+.toc-nav {
+  @apply sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto pr-4;
+  scrollbar-width: thin;
+  scrollbar-color: theme('colors.slate.700') theme('colors.slate.900');
+}
+
+.toc-nav::-webkit-scrollbar {
+  width: 6px;
+}
+
+.toc-nav::-webkit-scrollbar-track {
+  background: theme('colors.slate.900');
+  border-radius: 3px;
+}
+
+.toc-nav::-webkit-scrollbar-thumb {
+  background-color: theme('colors.slate.700');
+  border-radius: 3px;
+}
