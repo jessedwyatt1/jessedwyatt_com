@@ -1,0 +1,1 @@
+export const OLLAMA_URL = process.env.NEXT_PUBLIC_OLLAMA_URL || 'http://192.168.0.84:11434'; 
