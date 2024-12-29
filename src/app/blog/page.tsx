@@ -1,8 +1,15 @@
 import Link from 'next/link';
 import { getBlogPosts } from '@/lib/blog/utils';
-import { Badge } from '@/components/ui/badge';
-import { Github, ExternalLink, Calendar } from 'lucide-react';
+import { BlogPosts } from '@/components/blog/posts';
 import { BlogPostMeta } from '@/lib/blog/types';
+
+const POSTS_PER_PAGE = 5;
+
+// Month names for archive navigation
+const monthNames = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'
+];
 
 interface GroupedPosts {
   [year: string]: {
@@ -10,11 +17,13 @@ interface GroupedPosts {
   };
 }
 
+export const revalidate = 3600;
+
 export default async function BlogPage() {
-  const posts = await getBlogPosts();
+  const allPosts = await getBlogPosts();
   
-  // Group posts by year and month
-  const groupedPosts = posts.reduce<GroupedPosts>((acc, post) => {
+  // Group posts by year and month for archive
+  const groupedPosts = allPosts.reduce<GroupedPosts>((acc, post) => {
     const date = new Date(post.date);
     const year = date.getFullYear().toString();
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -25,63 +34,14 @@ export default async function BlogPage() {
     acc[year][month].push(post);
     return acc;
   }, {});
-
-  const monthNames = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-  ];
-
+  
   return (
     <div className="py-16 bg-gradient-to-b from-slate-900 to-slate-800">
       <div className="container max-w-4xl">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Posts Grid */}
-          <div className="flex-1 space-y-8">
-            {posts.map((post) => (
-              <article key={post.slug} className="p-6 bg-slate-900/50 rounded-lg border border-slate-800 hover:border-slate-700 transition-all">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
-                  <Calendar className="w-4 h-4" />
-                  {new Date(post.date).toLocaleDateString()}
-                </div>
-                
-                <Link href={`/blog/post/${post.slug}`}>
-                  <h2 className="text-2xl font-semibold mb-2 hover:text-blue-400 transition-colors">
-                    {post.title}
-                  </h2>
-                </Link>
-                
-                <p className="text-muted-foreground mb-4">
-                  {post.description}
-                </p>
-
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {post.tags.map((tag) => (
-                    <Badge key={tag} variant="secondary" className="bg-slate-800">
-                      {tag}
-                    </Badge>
-                  ))}
-                </div>
-
-                {post.project && (
-                  <div className="flex gap-3 text-sm text-muted-foreground">
-                    {post.project.github && (
-                      <a href={post.project.github} target="_blank" rel="noopener noreferrer" 
-                         className="flex items-center gap-1 hover:text-blue-400 transition-colors">
-                        <Github className="w-4 h-4" />
-                        View Code
-                      </a>
-                    )}
-                    {post.project.live && (
-                      <a href={post.project.live} target="_blank" rel="noopener noreferrer"
-                         className="flex items-center gap-1 hover:text-blue-400 transition-colors">
-                        <ExternalLink className="w-4 h-4" />
-                        Live Demo
-                      </a>
-                    )}
-                  </div>
-                )}
-              </article>
-            ))}
+          <div className="flex-1">
+            <BlogPosts initialPosts={allPosts.slice(0, POSTS_PER_PAGE)} totalPosts={allPosts} />
           </div>
 
           {/* Archive Navigation */}

@@ -7,6 +7,10 @@ project:
   name: "Blog Platform"
   github: "https://github.com/jessedwyatt1/jessedwyatt_com"
   live: "https://jessedwyatt.com/blog"
+social:
+  image: "/blog/default-blog.png"
+  title: "The Complete Blog Post Style Guide"
+  description: "A comprehensive demonstration of all available styling options, components, and formatting features available in the blog system. Use this post as a reference when creating content."
 ---
 
 # The Complete Blog Post Style Guide

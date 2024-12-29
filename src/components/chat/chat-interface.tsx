@@ -148,35 +148,22 @@ export function ChatInterface() {
 
   return (
     <div className={cn(
-      "fixed bottom-0 right-0 w-full md:w-96 border-l border-t border-border/50 flex flex-col",
-      isCollapsed ? "h-16" : "h-[32rem]",
+      "fixed bottom-4 right-4 w-[calc(100%-2rem)] md:w-[400px] border border-border/50 rounded-2xl overflow-hidden shadow-lg max-h-[80vh] flex flex-col",
       mode === 'professional' 
-        ? "bg-slate-800/95" 
-        : "bg-blue-950/95 border-blue-800/50"
+        ? "bg-slate-700/75 backdrop-blur-sm"
+        : "bg-blue-950/75 border-blue-800/50 backdrop-blur-sm"
     )}>
-      {/* Chat Header */}
-      <div 
-        className={cn(
-          "p-4 border-b border-border/50 flex items-center justify-between shrink-0",
-          mode === 'professional' 
-            ? "bg-slate-700/50" 
-            : "bg-blue-900/50",
-          isCollapsed && "cursor-pointer hover:bg-slate-700/70"
-        )}
-        onClick={isCollapsed ? () => setIsCollapsed(false) : undefined}
-      >
+      <div className="flex items-center justify-between p-3 border-b border-border/50">
         <div className="flex items-center gap-2">
           <Bot className="w-5 h-5 text-primary" />
-          <h2 className="text-lg font-semibold text-card-foreground">Chat with Sophia</h2>
+          <span className="font-medium">Sophia - Portfolio AI Assistant</span>
         </div>
         <Button
           variant="ghost"
           size="sm"
-          className="h-8 w-8 p-0 rounded-full hover:bg-muted"
-          onClick={(e) => {
-            e.stopPropagation();
-            setIsCollapsed(!isCollapsed);
-          }}
+          className="h-8 w-8 p-0"
+          onClick={() => setIsCollapsed(!isCollapsed)}
+          title={isCollapsed ? "Expand chat" : "Collapse chat"}
         >
           {isCollapsed ? (
             <ChevronUp className="h-6 w-6" />
@@ -190,10 +177,10 @@ export function ChatInterface() {
         <div className="flex-1 flex flex-col overflow-hidden">
           {/* Messages container */}
           <div className={cn(
-            "flex-1 overflow-y-auto p-4 space-y-4",
+            "flex-1 overflow-y-auto p-4 space-y-4 min-h-0",
             mode === 'professional' 
-              ? "bg-slate-800/50" 
-              : "bg-blue-950/50"
+              ? "bg-slate-700/75"
+              : "bg-blue-950/75"
           )}>
             {/* Messages */}
             {messages.length === 0 && (
@@ -267,8 +254,8 @@ export function ChatInterface() {
           <div className={cn(
             "border-t border-border/50 p-4 shrink-0",
             mode === 'professional' 
-              ? "bg-slate-700/50" 
-              : "bg-blue-900/50"
+              ? "bg-slate-600/50" 
+              : "bg-blue-950/50"
           )}>
             <div className="flex space-x-2">
               <Button

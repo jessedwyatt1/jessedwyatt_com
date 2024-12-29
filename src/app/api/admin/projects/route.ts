@@ -4,6 +4,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import { nanoid } from 'nanoid';
 import { Project, ProjectWithId } from '@/lib/projects/types';
+import { revalidateProjectPaths } from '@/lib/projects/revalidate';
 
 const PROJECTS_FILE = path.join(process.cwd(), 'data', 'projects.json');
 
@@ -42,6 +43,9 @@ export async function POST(req: NextRequest) {
 
     projects.push(newProject);
     await writeProjects(projects);
+
+    // Revalidate project paths
+    await revalidateProjectPaths();
 
     return NextResponse.json({ success: true, project: newProject });
   } catch (error) {

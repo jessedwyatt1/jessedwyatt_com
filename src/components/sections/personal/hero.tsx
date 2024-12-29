@@ -3,17 +3,17 @@ import { Github, ExternalLink, BookOpen } from "lucide-react"
 
 export function PersonalHero() {
   return (
-    <section className="py-20 bg-gradient-to-r from-blue-600/10 to-purple-600/10">
+    <section className="pt-20 pb-4 bg-gradient-to-b from-blue-600/10 via-purple-600/10 to-purple-600/10">
       <div className="container">
         <div className="max-w-3xl mx-auto text-center">
           <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text">
             Building Cool Stuff with Code
           </h1>
-          <p className="text-xl text-muted-foreground mb-8">
+          <p className="text-xl text-muted-foreground mb-6">
             A collection of personal projects, experiments, and open source contributions
           </p>
 
-          <div className="flex flex-col items-center gap-4 mb-12">
+          <div className="flex flex-col items-center gap-4 mb-4">
             <div className="flex justify-center gap-4">
               <a
                 href="https://github.com/jessedwyatt1/jessedwyatt_com"

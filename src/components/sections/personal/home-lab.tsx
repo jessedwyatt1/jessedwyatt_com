@@ -50,7 +50,7 @@ export function HomeLab() {
   ]
 
   return (
-    <section className="py-16 bg-gradient-to-b from-slate-900/50 to-blue-950/50">
+    <section className="py-16 bg-gradient-to-b from-blue-800/10 via-purple-900/10 to-blue-950/10">
       <div className="container">
         <h2 className="text-3xl font-bold text-center mb-4 bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text">
           Home Lab Setup

@@ -36,7 +36,7 @@ export function CertificationsGrid() {
   ]
 
   return (
-    <section className="py-16">
+    <section className="py-16 bg-gradient-to-b from-slate-700/50 to-slate-900">
       <div className="container">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold mb-4">Certifications</h2>
@@ -48,7 +48,7 @@ export function CertificationsGrid() {
           {certifications.map((cert, index) => (
             <div 
               key={index}
-              className="p-6 bg-card rounded-lg border border-border flex items-start gap-4"
+              className="p-6 rounded-lg border border-border/50 bg-gradient-to-br from-card/50 to-card hover:from-card hover:to-card/80 transition-all duration-300 hover:border-border hover:shadow-lg hover:-translate-y-1 flex items-start gap-4"
             >
               <Award className="w-8 h-8 text-primary flex-shrink-0" />
               <div>

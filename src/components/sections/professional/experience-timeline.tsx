@@ -85,7 +85,7 @@ export const ExperienceTimeline = forwardRef<HTMLDivElement>((props, ref) => {
   const visibleExperiences = isExpanded ? experiences : experiences.slice(0, 2)
 
   return (
-    <section ref={ref} id="professional-experience" className="py-16 bg-muted/50">
+    <section ref={ref} id="professional-experience" className="py-16 bg-gradient-to-b from-slate-900/50 via-slate-800/50 to-slate-700/50">
       <div className="container">
         <h2 className="text-3xl font-bold text-center mb-12">Professional Experience</h2>
         <div className="max-w-3xl mx-auto">

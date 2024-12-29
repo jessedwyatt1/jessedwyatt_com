@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "@/lib/auth";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { AlertCircle, Plus, RefreshCw, Trash, Edit } from "lucide-react";
+import { AlertCircle, Plus, RefreshCw, Trash, Edit, Upload } from "lucide-react";
 import { BlogPostMeta } from "@/lib/blog/types";
 import { Badge } from "@/components/ui/badge";
 
@@ -57,6 +57,29 @@ export function BlogPostManager() {
     }
   };
 
+  const handleFileUpload = async (file: File) => {
+    try {
+      const { parseUploadedFile } = await import('@/lib/blog/client-utils');
+      const { frontmatter, content } = await parseUploadedFile(file);
+      
+      // Store the data in localStorage
+      localStorage.setItem('pendingBlogPost', JSON.stringify({
+        title: frontmatter.title || '',
+        description: frontmatter.description || '',
+        content: content,
+        tags: Array.isArray(frontmatter.tags) ? frontmatter.tags.join(', ') : frontmatter.tags || '',
+        date: frontmatter.date || new Date().toISOString().split('T')[0],
+        project: frontmatter.project || null
+      }));
+
+      // Redirect to new post page with a flag
+      window.location.href = `/admin/blog/new?source=upload`;
+    } catch (error) {
+      console.error('Error processing file:', error);
+      setError('Failed to process uploaded file');
+    }
+  };
+
   if (!isLoggedIn) {
     return (
       <div className="container max-w-4xl py-8">
@@ -76,6 +99,25 @@ export function BlogPostManager() {
           <Button onClick={fetchPosts} variant="secondary" disabled={isLoading}>
             <RefreshCw className={`w-4 h-4 mr-2 ${isLoading ? 'animate-spin' : ''}`} />
             Refresh
+          </Button>
+          <input
+            type="file"
+            accept=".md,.txt"
+            className="hidden"
+            id="blog-file-upload"
+            onChange={async (e) => {
+              const file = e.target.files?.[0];
+              if (file) {
+                await handleFileUpload(file);
+              }
+            }}
+          />
+          <Button
+            variant="secondary"
+            onClick={() => document.getElementById('blog-file-upload')?.click()}
+          >
+            <Upload className="w-4 h-4 mr-2" />
+            Upload
           </Button>
           <Button asChild>
             <a href="/admin/blog/new">

@@ -1,16 +1,16 @@
 import { NextResponse } from 'next/server';
 import { checkServerAuth } from '@/lib/auth-server';
-import fs from 'fs/promises';
-import path from 'path';
+import { readProjects, writeProjects } from '@/lib/projects/utils';
+import { revalidateProjectPaths } from '@/lib/projects/revalidate';
 import { ProjectWithId } from '@/lib/projects/types';
 
-const PROJECTS_FILE = path.join(process.cwd(), 'data', 'projects.json');
+interface RouteContext {
+  params: Promise<{
+    id: string;
+  }>;
+}
 
-export async function PUT(
-  request: Request,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  context: any
-) {
+export async function PUT(request: Request, context: RouteContext) {
   try {
     const isAuthenticated = await checkServerAuth();
     if (!isAuthenticated) {
@@ -18,14 +18,13 @@ export async function PUT(
     }
 
     const data = await request.json();
-    const { id } = context.params;
+    const { id } = await context.params;
 
-    // Read current projects
-    const content = await fs.readFile(PROJECTS_FILE, 'utf8');
-    const projects: ProjectWithId[] = JSON.parse(content);
+    // Read current projects using utility function
+    const projects = await readProjects();
 
     // Find and update the project
-    const projectIndex = projects.findIndex(p => p.id === id);
+    const projectIndex = projects.findIndex((p: ProjectWithId) => p.id === id);
     if (projectIndex === -1) {
       return NextResponse.json({ error: 'Project not found' }, { status: 404 });
     }
@@ -37,8 +36,11 @@ export async function PUT(
       ...(data.blogUrl ? { blogUrl: data.blogUrl } : { blogUrl: undefined })
     };
 
-    // Write back to file
-    await fs.writeFile(PROJECTS_FILE, JSON.stringify(projects, null, 2));
+    // Write using utility function
+    await writeProjects(projects);
+
+    // Revalidate project paths
+    await revalidateProjectPaths();
 
     return NextResponse.json({ success: true, project: projects[projectIndex] });
   } catch (error) {
@@ -50,28 +52,33 @@ export async function PUT(
   }
 }
 
-export async function DELETE(
-  _request: Request,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  context: any
-) {
+export async function DELETE(_request: Request, context: RouteContext) {
   try {
     const isAuthenticated = await checkServerAuth();
     if (!isAuthenticated) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const projects = await readProjects();
-    const filteredProjects = projects.filter((p: ProjectWithId) => p.id !== context.params.id);
+    const { id } = await context.params;
 
-    if (projects.length === filteredProjects.length) {
-      return NextResponse.json(
-        { error: 'Project not found' },
-        { status: 404 }
-      );
+    // Read current projects using utility function
+    const projects = await readProjects();
+
+    // Find project index
+    const projectIndex = projects.findIndex((p: ProjectWithId) => p.id === id);
+    if (projectIndex === -1) {
+      return NextResponse.json({ error: 'Project not found' }, { status: 404 });
     }
 
-    await writeProjects(filteredProjects);
+    // Remove project
+    projects.splice(projectIndex, 1);
+
+    // Write using utility function
+    await writeProjects(projects);
+
+    // Revalidate project paths
+    await revalidateProjectPaths();
+
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error deleting project:', error);
@@ -80,18 +87,4 @@ export async function DELETE(
       { status: 500 }
     );
   }
-}
-
-async function readProjects(): Promise<ProjectWithId[]> {
-  try {
-    const content = await fs.readFile(PROJECTS_FILE, 'utf8');
-    return JSON.parse(content);
-  } catch {
-    return [];
-  }
-}
-
-async function writeProjects(projects: ProjectWithId[]): Promise<void> {
-  await fs.mkdir(path.dirname(PROJECTS_FILE), { recursive: true });
-  await fs.writeFile(PROJECTS_FILE, JSON.stringify(projects, null, 2));
 } 

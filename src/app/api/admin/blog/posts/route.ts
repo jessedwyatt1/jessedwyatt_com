@@ -4,6 +4,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import matter from 'gray-matter';
 import { BlogPostMeta } from '@/lib/blog/types';
+import { revalidateBlogPaths } from '@/lib/blog/revalidate';
 
 const POSTS_DIR = path.join(process.cwd(), 'content', 'blog');
 
@@ -109,6 +110,9 @@ export async function POST(req: NextRequest) {
 
     // Write the file
     await fs.writeFile(filePath, markdown);
+
+    // Revalidate paths
+    await revalidateBlogPaths(slug);
 
     return NextResponse.json({ success: true });
   } catch (error) {
