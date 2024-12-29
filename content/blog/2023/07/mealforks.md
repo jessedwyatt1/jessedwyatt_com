@@ -1,6 +1,6 @@
 ---
 title: 'MealForks: Revolutionizing Recipe Sharing Through Community and Innovation'
-date: '2023-09-28'
+date: '2023-07-28'
 description: >-
   An in-depth exploration of MealForks - a next-generation recipe sharing and
   culinary community platform that combines social features with powerful recipe
@@ -17,7 +17,7 @@ tags:
 project:
   name: MealForks
   github: ''
-  live: ''
+  live: 'https://mealforks.com'
 ---
 
 # MealForks: Revolutionizing Recipe Sharing Through Community and Innovation
