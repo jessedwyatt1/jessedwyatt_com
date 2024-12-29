@@ -29,9 +29,37 @@ export async function generateMetadata(
     };
   }
 
+  const imageUrl = post.social?.image || '/blog/default-blog.png';
+  // Create absolute URL explicitly for better compatibility
+  const absoluteImageUrl = new URL(
+    imageUrl.startsWith('/') ? imageUrl.slice(1) : imageUrl,
+    'https://jessedwyatt.com'
+  ).toString();
+
   return {
     title: post.title,
     description: post.description,
+    openGraph: {
+      title: post.social?.title || post.title,
+      description: post.social?.description || post.description,
+      type: 'article',
+      publishedTime: post.date,
+      authors: ['Jesse D. Wyatt'],
+      images: [
+        {
+          url: absoluteImageUrl,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.social?.title || post.title,
+      description: post.social?.description || post.description,
+      images: [absoluteImageUrl],
+    }
   };
 }
 

@@ -1,17 +1,23 @@
 ---
-title: "jessedwyatt.com: Building a Modern Portfolio with AI-Powered Chat"
+title: "JesseDWyatt.com: Building a Modern Portfolio with AI-Powered Chat"
 date: "2024-12-27"
-description: "A deep dive into the development of jessedwyatt.com - a modern portfolio website featuring an AI-powered chat interface, built with Next.js, TypeScript, and local LLM integration. Learn about the architectural decisions, technical challenges, and innovative solutions implemented in this project."
+description: "A deep dive into the development of this very website you're reading - JesseDWyatt.com is a modern portfolio featuring an AI-powered chat interface, built entirely from scratch without reliance on CMS platforms or website builders. Running on custom-built hardware and a homegrown security stack, this Next.js and TypeScript application showcases what's possible with modern web development. This article, hosted on the platform it describes, explores the architectural decisions, technical challenges, and innovative solutions implemented in its own creation."
 tags: ["Next.js", "TypeScript", "AI", "LLM", "Tailwind CSS", "React", "Portfolio"]
 project:
   name: "jessedwyatt.com"
   github: "https://github.com/jessedwyatt1/jessedwyatt_com"
   live: "https://jessedwyatt.com"
+social:
+  image: "/blog/default-blog.png"
+  title: "JesseDWyatt.com: Building a Modern Portfolio with AI-Powered Chat"
+  description: "A deep dive into the development of this very website you're reading - JesseDWyatt.com is a modern portfolio featuring an AI-powered chat interface, built entirely from scratch without reliance on CMS platforms or website builders. Running on custom-built hardware and a homegrown security stack, this Next.js and TypeScript application showcases what's possible with modern web development. This article, hosted on the platform it describes, explores the architectural decisions, technical challenges, and innovative solutions implemented in its own creation."
 ---
 
 # jessedwyatt.com: Building a Modern Portfolio with AI-Powered Chat
 
-Creating a personal website that truly stands out in today's digital landscape requires more than just a clean design and responsive layout. With the rise of AI and the increasing sophistication of web technologies, there's an opportunity to create something truly interactive and engaging. This project combines modern web development practices with AI capabilities to create a unique portfolio experience.
+## Introduction
+
+Creating a personal website that truly stands out in today's digital landscape requires more than just a clean design and responsive layout. You're currently experiencing this firsthand - this very article is hosted on the platform it describes, running on custom-built hardware and infrastructure rather than traditional hosting solutions or website builders like WordPress or Squarespace. Every aspect, from the security stack to the AI integration, has been built from the ground up, showcasing the integration of modern web technologies with AI capabilities. With the rise of AI and the increasing sophistication of web technologies, I've tried to create something truly interactive and engaging, which you can explore throughout this site.
 
 ## The Vision
 

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowLeft, Calendar, Github, ExternalLink } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { getBlogPosts } from "@/lib/blog/utils";
+import { Metadata } from "next";
 
 interface Props {
   params: Promise<{
@@ -10,6 +11,11 @@ interface Props {
     month: string;
   }>;
 }
+
+export const metadata: Metadata = {
+  title: 'Blog Archive',
+  description: 'Archive of blog posts by date',
+};
 
 export default async function BlogArchivePage({ params }: Props) {
   const { year, month } = await params;

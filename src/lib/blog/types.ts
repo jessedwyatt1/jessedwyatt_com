@@ -10,6 +10,11 @@ export interface BlogPost {
     github?: string;
     live?: string;
   };
+  social?: {
+    image?: string;
+    title?: string;
+    description?: string;
+  };
 }
 
 export interface BlogPostMeta {
