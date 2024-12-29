@@ -8,6 +8,7 @@ export interface Project {
   blogUrl?: string;
   isPublic: boolean;
   privateReason?: string;
+  showOnPersonalPage: boolean;
 }
 
 export interface ProjectWithId extends Project {

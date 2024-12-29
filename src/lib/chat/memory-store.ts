@@ -4,20 +4,58 @@ import { join } from 'path'
 import { readdir, readFile } from 'fs/promises'
 import { COMPANY_NAMES } from '../constants'
 import { OllamaEmbeddings } from './ollama-embeddings'
+import { readProjects } from '../projects/utils';
+
+interface DocumentMetadata {
+  source: string;
+  section: string;
+  type: string;
+  priority?: number;
+  company?: string;
+  role?: string;
+  period?: string;
+  originalName?: string;
+  isCurrentRole?: boolean;
+  projectId?: string;
+  projectTitle?: string;
+}
 
 interface CustomDocument {
   id: string;
   content: string;
+  metadata: DocumentMetadata;
+  embedding?: number[];
+}
+
+interface ProjectDocument extends CustomDocument {
   metadata: {
     source: string;
     section: string;
     type: string;
     priority?: number;
-    company?: string;
-    role?: string;
-    period?: string;
-    originalName?: string;
-    isCurrentRole?: boolean;
+    projectId?: string;
+    projectTitle?: string;
+  };
+}
+
+interface ScoredDocument {
+  content: string;
+  score: number;
+  priority: number;
+  type?: string;
+  projectId?: string;
+}
+
+interface Document {
+  id: string;
+  content: string;
+  metadata: {
+    type: string;
+    priority?: number;
+    projectId?: string;
+    projectTitle?: string;
+    source: string;
+    section: string;
   };
   embedding?: number[];
 }
@@ -30,6 +68,7 @@ export class VectorStore {
   private workExperienceCache: string = '';
   private embedder: OllamaEmbeddings;
   private messageEmbeddingCache: Map<string, number[]> = new Map();
+  private projectDocuments: ProjectDocument[] = [];
 
   private static companyNameVariants: Map<string, Set<string>> = new Map(
     Array.from(COMPANY_NAMES).map(name => {
@@ -66,6 +105,13 @@ export class VectorStore {
       const knowledgeBasePath = join(process.cwd(), 'knowledge_base');
       await this.addDocumentsFromDirectory(knowledgeBasePath);
       await this.initializeWorkExperienceCache();
+      await this.initializeProjectDocuments();
+      
+      // Sort documents by priority
+      this.documents.sort((a, b) => 
+        (b.metadata.priority || 0) - (a.metadata.priority || 0)
+      );
+      
       this.initialized = true;
       console.log('Vector store initialized successfully');
       console.log(`Indexed ${this.documents.length} documents from knowledge base`);
@@ -116,71 +162,91 @@ export class VectorStore {
     return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
   }
 
-  async search(query: string): Promise<string> {
-    try {
-      // Check cache first
-      let queryEmbedding: number[];
-      if (this.messageEmbeddingCache.has(query)) {
-        queryEmbedding = this.messageEmbeddingCache.get(query)!;
-      } else {
-        queryEmbedding = await this.embedder.generateEmbedding(query);
-        this.messageEmbeddingCache.set(query, queryEmbedding);
-      }
+  public async search(query: string): Promise<string> {
+    const queryLower = query.toLowerCase();
+    const isProjectQuery = queryLower.includes('project') || 
+                          queryLower.includes('portfolio') || 
+                          queryLower.includes('work') ||
+                          queryLower.includes('built') ||
+                          queryLower.includes('created');
 
-      // First, get critical work experience documents
-      const criticalDocs = this.documents.filter(doc => 
-        doc.metadata.source === 'work-experience.md' && 
-        (doc.metadata.company === 'AeroVironment' || 
-         doc.metadata.company === 'Joint Tactics and Technologies')
+    // Always include current work experience
+    const workDocs = this.documents.filter(doc => 
+      doc.metadata.type === 'work_experience' && 
+      (doc.metadata.isCurrentRole || doc.content.includes('AeroVironment') || doc.content.includes('Joint Tactics'))
+    );
+
+    // Debug logging
+    if (isProjectQuery) {
+      const projectDocs = this.documents.filter((doc: Document) => 
+        doc.metadata.type === 'project'
+      );
+      console.log(`Found ${projectDocs.length} project documents`);
+      console.log('Project titles:', projectDocs.map(doc => doc.metadata.projectTitle));
+    }
+
+    const queryEmbedding = await this.embedder.generateEmbedding(query);
+    
+    // Get relevant documents based on query
+    const relevantDocs: ScoredDocument[] = [];
+    if (isProjectQuery) {
+      const projectDocs = this.documents.filter((doc: Document) => 
+        doc.metadata.type === 'project'
       );
 
-      // Then get other relevant documents
-      const scoredDocs = this.documents
-        .filter(doc => !criticalDocs.some(cd => cd.id === doc.id))
-        .map(doc => ({
-          content: doc.content,
-          score: this.cosineSimilarity(queryEmbedding, doc.embedding!),
-          priority: doc.metadata.priority || 1,
-          isWorkExperience: doc.metadata.source === 'work-experience.md'
-        }))
-        .sort((a, b) => {
-          const scoreA = a.score * Math.log2(a.priority + 1);
-          const scoreB = b.score * Math.log2(b.priority + 1);
-          return scoreB - scoreA;
-        });
+      if (projectDocs.length > 0) {
+        // Score all project documents with randomization
+        const scoredProjectDocs = projectDocs
+          .map(doc => ({
+            content: doc.content,
+            score: this.cosineSimilarity(queryEmbedding, doc.embedding!) * (0.9 + Math.random() * 0.2), // Add 10% random variation
+            priority: doc.metadata.priority || 3,
+            type: 'project',
+            projectId: doc.metadata.projectId
+          }))
+          .sort((a, b) => b.score - a.score);
 
-      // Start with critical work experience
-      let contextString = criticalDocs.map(doc => doc.content).join('\n\n---\n\n');
-      
-      // Add work experience cache if not already included
-      if (!contextString.includes(this.workExperienceCache)) {
-        contextString = this.workExperienceCache + '\n\n---\n\n' + contextString;
+        // Take top 3 projects after randomization
+        relevantDocs.push(...scoredProjectDocs.slice(0, 3));
+        
+        // Debug logging
+        console.log('Selected projects:', relevantDocs.map(doc => doc.content.split('\n')[0]));
       }
-
-      // Calculate remaining space
-      const criticalReserve = contextString.length + 100;
-      const adjustedMaxLength = this.maxContextLength - criticalReserve;
-
-      // Add other relevant documents
-      let i = 0;
-      while (i < scoredDocs.length && contextString.length < adjustedMaxLength) {
-        const doc = scoredDocs[i];
-        if (!doc.isWorkExperience) {
-          const newContext = contextString + '\n\n---\n\n' + doc.content;
-          if (newContext.length <= adjustedMaxLength) {
-            contextString = newContext;
-          } else {
-            break;
-          }
-        }
-        i++;
-      }
-
-      return contextString.trim();
-    } catch (error) {
-      console.error('Error in search:', error);
-      throw error;
     }
+
+    // Score and sort remaining documents
+    const otherDocs = this.documents
+      .filter((doc: Document) => !relevantDocs.some(rd => rd.content === doc.content))
+      .map(doc => ({
+        content: doc.content,
+        score: this.cosineSimilarity(queryEmbedding, doc.embedding!),
+        priority: doc.metadata.priority || 1
+      }))
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 3);
+
+    // Combine documents, ensuring work experience is included
+    const finalDocs = [
+      ...workDocs.map(doc => ({
+        content: doc.content,
+        score: 1,
+        priority: 5 // Highest priority for work experience
+      })),
+      ...relevantDocs,
+      ...otherDocs
+    ];
+
+    // Sort by priority and score
+    finalDocs.sort((a, b) => {
+      if (a.priority !== b.priority) {
+        return b.priority - a.priority;
+      }
+      return b.score - a.score;
+    });
+
+    return finalDocs
+      .map(doc => doc.content)
+      .join('\n\n---\n\n');
   }
 
   private async initializeWorkExperienceCache(): Promise<void> {
@@ -314,5 +380,72 @@ ${responsibilities.join('\n')}`.trim();
       return 4;
     }
     return 2;
+  }
+
+  private async initializeProjectDocuments(): Promise<void> {
+    try {
+      const projects = await readProjects();
+      
+      for (const project of projects) {
+        if (project.showOnPersonalPage) {
+          // Create main project document with all available information
+          const mainContent = `
+            Project: ${project.title}
+            Description: ${project.description}
+            Technologies: ${project.tech.join(', ')}
+            Features: ${project.features.map(f => `- ${f}`).join('\n')}
+            ${project.github ? `GitHub Repository: ${project.github}` : ''}
+            ${project.live ? `Live Site: ${project.live}` : ''}
+            ${project.blogUrl ? `Blog Post: ${project.blogUrl}` : ''}
+          `.trim();
+
+          this.projectDocuments.push({
+            id: `project-${project.id}`,
+            content: mainContent,
+            metadata: {
+              source: 'projects.json',
+              section: project.title,
+              type: 'project',
+              priority: 3,
+              projectId: project.id,
+              projectTitle: project.title
+            }
+          });
+
+          // Create technical details document
+          const techContent = `
+            ${project.title} Technical Implementation:
+            Tech Stack: ${project.tech.join(', ')}
+            ${project.features.map(f => `- ${f}`).join('\n')}
+          `.trim();
+
+          this.projectDocuments.push({
+            id: `project-${project.id}-tech`,
+            content: techContent,
+            metadata: {
+              source: 'projects.json',
+              section: `${project.title} Technical Details`,
+              type: 'project_technical',
+              priority: 2,
+              projectId: project.id,
+              projectTitle: project.title
+            }
+          });
+        }
+      }
+
+      // Generate embeddings for project documents
+      for (const doc of this.projectDocuments) {
+        doc.embedding = await this.embedder.generateEmbedding(doc.content);
+      }
+
+      // Add project documents to main documents array
+      this.documents.push(...this.projectDocuments);
+
+      console.log(`Added ${this.projectDocuments.length} project documents to vector store`);
+    } catch (error) {
+      console.error('Error initializing project documents:', error);
+      throw error;
+    }
   }
 }

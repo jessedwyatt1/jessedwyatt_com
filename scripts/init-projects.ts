@@ -30,6 +30,7 @@ const initialProjects: ProjectWithId[] = [
     github: "https://github.com/jessedwyatt1/jessedwyatt_com",
     live: "https://jessedwyatt.com",
     isPublic: true,
+    showOnPersonalPage: true
   },
   {
     id: nanoid(),
@@ -54,7 +55,8 @@ const initialProjects: ProjectWithId[] = [
     ],
     live: "https://mealforks.com",
     isPublic: false,
-    privateReason: "Protected IP and client data"
+    privateReason: "Protected IP and client data",
+    showOnPersonalPage: true
   }
 ];
 

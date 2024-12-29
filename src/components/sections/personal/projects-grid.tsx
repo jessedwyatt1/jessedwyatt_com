@@ -4,11 +4,13 @@ import { useEffect, useState } from "react";
 import { ProjectWithId } from "@/lib/projects/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Github, Lock, Globe, BookOpen } from "lucide-react";
+import { ExternalLink, Github, Lock, Globe, BookOpen, Info } from "lucide-react";
 import Link from "next/link";
+import { createPortal } from 'react-dom';
 
 export function ProjectsGrid() {
   const [projects, setProjects] = useState<ProjectWithId[]>([]);
+  const [tooltipContent, setTooltipContent] = useState<{ text: string; x: number; y: number } | null>(null);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -16,7 +18,10 @@ export function ProjectsGrid() {
         const response = await fetch('/api/projects');
         if (!response.ok) throw new Error('Failed to fetch projects');
         const data = await response.json();
-        setProjects(data.projects);
+        const visibleProjects = data.projects.filter(
+          (p: ProjectWithId) => p.showOnPersonalPage
+        );
+        setProjects(visibleProjects);
       } catch (error) {
         console.error('Error fetching projects:', error);
       }
@@ -61,6 +66,24 @@ export function ProjectsGrid() {
                         <>
                           <Lock className="h-3 w-3" />
                           <span>Private</span>
+                          {project.privateReason && (
+                            <div 
+                              className="group/info relative"
+                              onMouseEnter={(e) => {
+                                const rect = e.currentTarget.getBoundingClientRect();
+                                if (project.privateReason) {
+                                  setTooltipContent({
+                                    text: project.privateReason,
+                                    x: rect.left,
+                                    y: rect.top
+                                  });
+                                }
+                              }}
+                              onMouseLeave={() => setTooltipContent(null)}
+                            >
+                              <Info className="h-3 w-3" />
+                            </div>
+                          )}
                         </>
                       )}
                     </span>
@@ -147,6 +170,21 @@ export function ProjectsGrid() {
           ))}
         </div>
       </div>
+
+      {tooltipContent && typeof window !== 'undefined' && createPortal(
+        <div 
+          className="fixed pointer-events-none bg-slate-800 text-xs rounded-md px-2 py-1 transition-opacity"
+          style={{
+            left: tooltipContent.x,
+            top: tooltipContent.y - 30,
+            transform: 'translateX(-50%)',
+            zIndex: 9999
+          }}
+        >
+          {tooltipContent.text}
+        </div>,
+        document.body
+      )}
     </section>
   );
 } 

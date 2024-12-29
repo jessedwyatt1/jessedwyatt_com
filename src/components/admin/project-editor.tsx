@@ -20,6 +20,7 @@ interface Props {
 interface FormData extends Omit<Project, 'tech' | 'features'> {
   tech: string;
   features: string;
+  showOnPersonalPage: boolean;
 }
 
 export function ProjectEditor({ project, mode }: Props) {
@@ -39,6 +40,7 @@ export function ProjectEditor({ project, mode }: Props) {
     blogUrl: project?.blogUrl ?? "",
     isPublic: project?.isPublic ?? true,
     privateReason: project?.privateReason ?? "",
+    showOnPersonalPage: project?.showOnPersonalPage ?? true,
   });
 
   useEffect(() => {
@@ -73,6 +75,7 @@ export function ProjectEditor({ project, mode }: Props) {
         blogUrl: formData.blogUrl || undefined,
         isPublic: formData.isPublic,
         privateReason: formData.privateReason || undefined,
+        showOnPersonalPage: formData.showOnPersonalPage,
       };
 
       const url = mode === "create" 
@@ -256,6 +259,16 @@ export function ProjectEditor({ project, mode }: Props) {
             />
           </div>
         )}
+
+        <div className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={formData.showOnPersonalPage}
+            onChange={(e) => setFormData({ ...formData, showOnPersonalPage: e.target.checked })}
+            className="h-4 w-4"
+          />
+          <label className="text-sm font-medium">Show on Personal Page</label>
+        </div>
       </form>
     </div>
   );

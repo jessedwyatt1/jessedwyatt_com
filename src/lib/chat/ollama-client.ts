@@ -62,7 +62,15 @@ export class OllamaClient {
     - Only mention knowledge limitations when directly relevant.
     - Suggest related topics only if they are directly connected to the current conversation.
     - Keep responses concise unless detailed information is requested.
-    - Use context details to make answers specific and informative.`;
+    - Use context details to make answers specific and informative.
+  
+    Project Information Guidelines:
+    - When discussing projects, include specific technical details and features
+    - Highlight the technologies used in each project
+    - For private projects, mention they are private but don't share sensitive details
+    - Focus on projects marked as showOnPersonalPage when discussing personal work
+    - Include GitHub links only for public projects
+    - When discussing the tech stack, reference specific project implementations`;
   }
 
   private formatPromptWithContext(message: string, context: string): string {

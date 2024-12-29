@@ -97,7 +97,25 @@ export function ProjectManager() {
           <div key={project.id} className="p-4 bg-slate-900/50 rounded-lg border border-slate-800">
             <div className="flex justify-between items-start">
               <div>
-                <h2 className="text-xl font-semibold mb-2">{project.title}</h2>
+                <div className="flex items-center gap-2 mb-2">
+                  <h2 className="text-xl font-semibold">{project.title}</h2>
+                  <div className="flex gap-1">
+                    {project.showOnPersonalPage ? (
+                      <Badge variant="outline" className="border-green-800/50 bg-green-900/10 text-green-400">
+                        Personal Page
+                      </Badge>
+                    ) : (
+                      <Badge variant="outline" className="border-slate-800/50 bg-slate-900/10 text-slate-400">
+                        Hidden
+                      </Badge>
+                    )}
+                    <Badge variant={project.isPublic ? "success" : "secondary"} className={`
+                      ${project.isPublic ? 'bg-green-900/50 text-green-400' : 'bg-slate-800 text-slate-400'}
+                    `}>
+                      {project.isPublic ? 'Public' : 'Private'}
+                    </Badge>
+                  </div>
+                </div>
                 <p className="text-muted-foreground mb-2">{project.description}</p>
                 <div className="flex flex-wrap gap-2 mb-2">
                   {project.tech.map((tech) => (
@@ -106,11 +124,6 @@ export function ProjectManager() {
                     </Badge>
                   ))}
                 </div>
-                <Badge variant={project.isPublic ? "success" : "secondary"} className={`
-                  ${project.isPublic ? 'bg-green-900/50 text-green-400' : 'bg-slate-800 text-slate-400'}
-                `}>
-                  {project.isPublic ? 'Public' : 'Private'}
-                </Badge>
               </div>
               <div className="flex gap-2">
                 <Button variant="ghost" size="sm" asChild>

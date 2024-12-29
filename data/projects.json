@@ -18,7 +18,8 @@
     "github": "https://github.com/jessedwyatt1/jessedwyatt_com",
     "live": "https://jessedwyatt.com",
     "isPublic": true,
-    "blogUrl": "/blog/post/2024/12/portfolio"
+    "blogUrl": "/blog/post/2024/12/portfolio",
+    "showOnPersonalPage": true
   },
   {
     "id": "GHwy1xGQjN_YGZrvNCzN5",
@@ -43,7 +44,8 @@
     ],
     "live": "https://mealforks.com",
     "isPublic": false,
-    "privateReason": "Protected IP and client data"
+    "privateReason": "Protected IP and client data",
+    "showOnPersonalPage": true
   },
   {
     "id": "kL9mN4pQ2rS5vW8xY1zA",
@@ -64,7 +66,8 @@
     ],
     "github": "https://github.com/jessedwyatt1/cinematix",
     "isPublic": true,
-    "blogUrl": "/blog/post/2024/12/cinematix"
+    "blogUrl": "/blog/post/2024/12/cinematix",
+    "showOnPersonalPage": true
   },
   {
     "id": "bC3dF6gH9jK2mN5pQ8rT",
@@ -94,7 +97,8 @@
     "github": "https://github.com/yourusername/stig-analyzer",
     "live": "https://stig-analyzer.yourdomain.com",
     "isPublic": false,
-    "privateReason": "Contains sensitive security implementations"
+    "privateReason": "Contains sensitive security implementations",
+    "showOnPersonalPage": true
   },
   {
     "id": "wX4yZ7aB0cD3eF6gH9iJ",
@@ -121,7 +125,8 @@
       "Comprehensive API integration"
     ],
     "isPublic": false,
-    "privateReason": "Protected client IP and analytics logic"
+    "privateReason": "Protected client IP and analytics logic",
+    "showOnPersonalPage": true
   },
   {
     "id": "tU5vW8xY1zA4bC7dF0gH",
@@ -145,6 +150,35 @@
       "YAML-based configuration",
       "Comprehensive metrics collection"
     ],
-    "isPublic": true
+    "isPublic": true,
+    "showOnPersonalPage": true
+  },
+  {
+    "id": "mC3vN8pK2rL5tQ9xY4wZ",
+    "title": "PyCraft: Minecraft-inspired Voxel Engine",
+    "description": "A Python-based voxel game engine inspired by Minecraft, built with modern OpenGL. Features procedural terrain generation, dynamic chunk loading, and interactive block manipulation. Implements efficient mesh generation, texture atlas management, and a modular component architecture.",
+    "tech": [
+      "Python",
+      "OpenGL (ModernGL)",
+      "NumPy",
+      "GLFW",
+      "Pillow",
+      "OpenSimplex",
+      "PyGame"
+    ],
+    "features": [
+      "Procedural terrain generation with Perlin noise",
+      "Efficient chunk-based rendering system",
+      "Dynamic mesh generation and culling",
+      "Interactive block placement and destruction",
+      "Basic physics and collision detection",
+      "Texture atlas management",
+      "Player inventory system",
+      "Custom shader pipeline",
+      "Tree generation algorithm"
+    ],
+    "isPublic": false,
+    "privateReason": "Educational project with proprietary game engine design",
+    "showOnPersonalPage": false
   }
 ]
