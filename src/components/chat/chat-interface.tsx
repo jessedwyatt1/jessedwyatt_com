@@ -185,7 +185,7 @@ export function ChatInterface() {
             {/* Messages */}
             {messages.length === 0 && (
               <div className="text-center text-sm text-slate-300 my-4">
-                <p>👋 Hi! I&apos;m Sophia, a locally running fine-tuned AI model Jesse put together to showcase his portfolio.</p>
+                <p>👋 Hi! I&apos;m Sophia, a locally running fine-tuned AI assistantJesse built to showcase his portfolio.</p>
                 <p className="mt-3">LLMs can make mistakes! Bare with me while I learn.</p>
               </div>
             )}

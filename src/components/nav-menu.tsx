@@ -6,13 +6,11 @@ import { Button } from '@/components/ui/button';
 import { useAuth } from '@/lib/auth/auth-context';
 import { Menu, X } from 'lucide-react';
 import { useLoginModal } from '@/components/auth/login-modal-context';
-import { useContactModal } from "@/components/contact-modal-context"
 
 export function NavMenu() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { isLoggedIn, logout } = useAuth();
   const { openModal } = useLoginModal();
-  const { openModal: openContactModal } = useContactModal();
 
   return (
     <>
@@ -27,9 +25,9 @@ export function NavMenu() {
         <Link href="/blog">
           <Button variant="ghost">Blog</Button>
         </Link>
-        <Button variant="ghost" onClick={openContactModal}>
+        {/* <Button variant="ghost" onClick={openContactModal}>
           Contact
-        </Button>
+        </Button> */}
         {isLoggedIn ? (
           <>
             <Link href="/admin/settings">
@@ -79,18 +77,6 @@ export function NavMenu() {
                   Blog
                 </Button>
               </Link>
-              <div className="w-full max-w-[200px]">
-                <Button 
-                  variant="ghost" 
-                  onClick={() => {
-                    openContactModal();
-                    setIsMobileMenuOpen(false);
-                  }}
-                  className="w-full justify-end"
-                >
-                  Contact
-                </Button>
-              </div>
               {isLoggedIn ? (
                 <>
                   <Link href="/admin/settings" onClick={() => setIsMobileMenuOpen(false)} className="w-full max-w-[200px]">

@@ -19,8 +19,29 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // To be implemented
-    onClose()
+    
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, message })
+      })
+
+      if (!response.ok) {
+        const data = await response.json()
+        throw new Error(data.error || 'Failed to send message')
+      }
+
+      // Clear form and close modal on success
+      setName('')
+      setEmail('')
+      setMessage('')
+      onClose()
+    } catch (error) {
+      console.error('Contact form error:', error)
+      // You might want to add error state and display to user
+      alert('Failed to send message. Please try again.')
+    }
   }
 
   return (

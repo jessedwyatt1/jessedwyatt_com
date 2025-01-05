@@ -22,11 +22,10 @@ export function HeroSection({ experienceRef }: HeroSectionProps) {
         <div className="relative">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl font-bold mb-6">
-              Cyber Security Engineer & Technical Leader
+              Cyber Architect & Problem Solver
             </h1>
             <p className="text-xl text-muted-foreground mb-8">
-              Specializing in Information Systems Security Engineering (ISSE), 
-              Risk Management Framework (RMF), and System Security Architecture
+              Building & implementing secure, scalable solutions for the modern enterprise.
             </p>
             <div className="flex flex-col items-center gap-4 mb-12">
               <div className="flex justify-center gap-4">
@@ -84,23 +83,23 @@ export function HeroSection({ experienceRef }: HeroSectionProps) {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="flex flex-col items-center">
                 <Shield className="h-12 w-12 mb-4 text-primary" />
-                <h3 className="font-semibold mb-2">Security Focused</h3>
+                <h3 className="font-semibold mb-2">Security Expertise</h3>
                 <p className="text-sm text-muted-foreground">
-                  Expert in RMF implementation and ATO processes
+                  Expert in RMF implementation, Defense in Depth, and Enterprise Security Architecture
                 </p>
               </div>
               <div className="flex flex-col items-center">
                 <Server className="h-12 w-12 mb-4 text-primary" />
-                <h3 className="font-semibold mb-2">System Integration</h3>
+                <h3 className="font-semibold mb-2">Systems Architecture</h3>
                 <p className="text-sm text-muted-foreground">
-                  Complex system security architecture and implementation
+                  Designing secure, scalable, and integrated systems for modern enterprises
                 </p>
               </div>
               <div className="flex flex-col items-center">
                 <Code className="h-12 w-12 mb-4 text-primary" />
-                <h3 className="font-semibold mb-2">Technical Leadership</h3>
+                <h3 className="font-semibold mb-2">Innovative Problem Solving</h3>
                 <p className="text-sm text-muted-foreground">
-                  Proven track record in leading technical teams
+                  Innovating at the intersection of technology, security, and usability
                 </p>
               </div>
             </div>

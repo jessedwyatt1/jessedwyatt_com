@@ -107,23 +107,31 @@ html {
 
 /* Table of Contents Styles */
 .toc-nav {
-  @apply sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto pr-4;
+  @apply max-h-[calc(100vh-16rem)] overflow-y-scroll pr-2;
   scrollbar-width: thin;
   scrollbar-color: theme('colors.slate.700') theme('colors.slate.900');
+  -ms-overflow-style: scrollbar;
 }
 
 .toc-nav::-webkit-scrollbar {
   width: 6px;
+  display: block !important;
 }
 
 .toc-nav::-webkit-scrollbar-track {
   background: theme('colors.slate.900');
   border-radius: 3px;
+  visibility: visible !important;
 }
 
 .toc-nav::-webkit-scrollbar-thumb {
   background-color: theme('colors.slate.700');
   border-radius: 3px;
+  visibility: visible !important;
+}
+
+.toc-nav:hover::-webkit-scrollbar-thumb {
+  background-color: theme('colors.slate.600');
 }
 
 .hero-pattern {
@@ -134,4 +142,21 @@ html {
   );
   background-size: 40px 40px;
   mask-image: linear-gradient(to bottom, transparent, black, transparent);
+}
+
+/* Add after the existing .prose styles */
+.prose .custom-block {
+  @apply p-4 mb-4 rounded-lg border;
+}
+
+.prose .custom-block.note {
+  @apply bg-blue-950/50 border-blue-800 text-blue-100;
+}
+
+.prose .custom-block.warning {
+  @apply bg-amber-950/50 border-amber-800 text-amber-100;
+}
+
+.prose .custom-block.tip {
+  @apply bg-emerald-950/50 border-emerald-800 text-emerald-100;
 }

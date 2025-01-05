@@ -22,13 +22,13 @@ export function Footer() {
           <div>
             <h3 className="font-semibold mb-3 text-primary">Contact</h3>
             <div className="space-y-2">
-              <a 
-                href="mailto:contact@jessedwyatt.com"
-                className="flex items-center gap-2 text-sfm text-muted-foreground hover:text-primary transition-colors"
+              <Link 
+                href="#"
+                className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
               >
                 <Mail className="h-4 w-4" />
-                contact@jessedwyatt.com
-              </a>
+                Contact
+              </Link>
             </div>
           </div>
 
@@ -37,16 +37,22 @@ export function Footer() {
             <h3 className="font-semibold mb-3 text-primary">Quick Links</h3>
             <div className="space-y-2">
               <Link 
-                href="/privacy"
+                href="/"
                 className="block text-sm text-muted-foreground hover:text-primary transition-colors"
               >
-                Privacy Policy
+                Professional
               </Link>
               <Link 
-                href="/terms"
+                href="/personal"
                 className="block text-sm text-muted-foreground hover:text-primary transition-colors"
               >
-                Terms of Service
+                Personal
+              </Link>
+              <Link 
+                href="/blog"
+                className="block text-sm text-muted-foreground hover:text-primary transition-colors"
+              >
+                Blog
               </Link>
             </div>
           </div>

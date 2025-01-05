@@ -35,17 +35,13 @@
       "Facebook SDK"
     ],
     "features": [
-      "Recipe sharing and forking system",
-      "User collections and folders",
-      "Rating and review system",
-      "User progression/ranking system",
-      "Responsive design",
-      "Social media integration"
+      "Recipe sharing and forking system, User collections and folders, Rating and review system, User progression/ranking system, Responsive design, Social media integration"
     ],
     "live": "https://mealforks.com",
     "isPublic": false,
     "privateReason": "Protected IP and client data",
-    "showOnPersonalPage": true
+    "showOnPersonalPage": true,
+    "blogUrl": "/blog/post/2023/07/mealforks"
   },
   {
     "id": "kL9mN4pQ2rS5vW8xY1zA",

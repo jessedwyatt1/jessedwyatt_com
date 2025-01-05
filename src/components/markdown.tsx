@@ -1,6 +1,7 @@
 "use client"
 
 import { marked } from 'marked';
+import type { Tokens } from 'marked';
 import { useMemo, useEffect, useState } from 'react';
 import { TableOfContents } from './blog/table-of-contents';
 
@@ -13,6 +14,11 @@ interface TOCItem {
   text: string;
   depth: number;
   children: TOCItem[];
+}
+
+interface HeadingToken {
+  tokens?: Array<{ type: string; text?: string }>;
+  depth: number;
 }
 
 interface MarkedToken {
@@ -62,7 +68,39 @@ export function Markdown({ content }: MarkdownProps) {
   const [activeId, setActiveId] = useState<string>('');
   
   const { html, tableOfContents } = useMemo(() => {
-    const tokens = marked.lexer(content);
+    const renderer = new marked.Renderer();
+    
+    // Add heading renderer with proper typing
+    renderer.heading = function({ tokens, depth }: HeadingToken): string {
+      const text = tokens?.[0]?.text || '';
+      const id = text
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '');
+      
+      return `<h${depth} id="${id}">${text}</h${depth}>`;
+    };
+    
+    // Update link renderer to match the Link token type
+    renderer.link = function({ href, title, text }: Tokens.Link): string {
+      if (!href) return text;
+      const isExternal = href.startsWith('http') || href.startsWith('https');
+      const attrs = isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
+      return `<a href="${href}"${attrs}${title ? ` title="${title}"` : ''}>${text}</a>`;
+    };
+    
+    // More flexible regex that handles various spacing
+    const customBlockRegex = /^[ \t]*:::(\w+)[ \t]*\n([\s\S]*?)\n[ \t]*:::[ \t]*$/gm;
+
+    // Process the content first to handle custom blocks
+    const processedContent = content.replace(
+      customBlockRegex,
+      (_, type, content) => {
+        return `<div class="custom-block ${type}">\n${content.trim()}\n</div>`;
+      }
+    );
+
+    const tokens = marked.lexer(processedContent);
     
     // Find and remove the first h1 token
     const firstH1Index = tokens.findIndex(token => 
@@ -73,7 +111,7 @@ export function Markdown({ content }: MarkdownProps) {
     }
     
     const toc = buildTableOfContents(tokens);
-    const html = marked.parser(tokens);
+    const html = marked.parser(tokens, { renderer });
     
     return {
       html,
@@ -110,9 +148,13 @@ export function Markdown({ content }: MarkdownProps) {
 
       {/* Table of Contents sidebar */}
       <aside className="hidden lg:block w-64 relative">
-        <div className="sticky top-24 toc-nav">
-          <h3 className="font-semibold mb-4">Table of Contents</h3>
-          <TableOfContents items={tableOfContents} activeId={activeId} />
+        <div className="sticky top-24">
+          <div className="p-4 rounded-lg border border-slate-800 bg-slate-800/50">
+            <h3 className="font-semibold mb-4">Table of Contents</h3>
+            <div className="toc-nav">
+              <TableOfContents items={tableOfContents} activeId={activeId} />
+            </div>
+          </div>
         </div>
       </aside>
     </div>
