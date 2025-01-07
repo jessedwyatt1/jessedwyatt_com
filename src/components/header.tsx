@@ -4,7 +4,7 @@ import Link from "next/link"
 import { NavMenu } from "@/components/nav-menu"
 import { useTheme } from "@/lib/theme-context"
 import { cn } from "@/lib/utils"
-import { Github, Linkedin } from "lucide-react"
+import { Github, Linkedin, Mail } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export function Header() {
@@ -52,6 +52,17 @@ export function Header() {
               <a href="https://linkedin.com/in/jessedwyatt" target="_blank" rel="noopener noreferrer">
                 <Linkedin className="h-4 w-4" />
                 <span className="sr-only">LinkedIn</span>
+              </a>
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 w-8 p-0 text-muted-foreground hover:text-primary hover:bg-primary/10"
+              asChild
+            >
+              <a href="mailto:contact@jessedwyatt.com" rel="noopener noreferrer">
+                <Mail className="h-4 w-4" />
+                <span className="sr-only">Email</span>
               </a>
             </Button>
           </div>
