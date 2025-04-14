@@ -11,7 +11,8 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-  const posts = await getBlogPosts();
+  // Pass true to include hidden posts since we want all posts to be accessible by direct URL
+  const posts = await getBlogPosts(true);
   return posts.map((post) => ({
     slug: post.slug.split('/')
   }));

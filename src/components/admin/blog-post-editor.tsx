@@ -29,6 +29,7 @@ interface FormData {
   content: string;
   tags: string;
   date: string;
+  showInList: boolean;
   project: {
     name: string;
     github: string;
@@ -94,6 +95,7 @@ export function BlogPostEditor({ post, mode }: Props) {
     content: post?.content || "",
     tags: post?.tags?.join(", ") || "",
     date: post?.date || new Date().toISOString().split('T')[0],
+    showInList: post?.showInList !== false,
     project: post?.project ? {
       name: post.project.name,
       github: post.project.github || "",
@@ -130,6 +132,7 @@ export function BlogPostEditor({ post, mode }: Props) {
           content: params.get('content') || '',
           tags: params.get('tags') || '',
           date: params.get('date') || new Date().toISOString().split('T')[0],
+          showInList: true, // Default to showing in list
           project: params.get('project') ? JSON.parse(params.get('project')!) : null
         });
 
@@ -156,6 +159,7 @@ export function BlogPostEditor({ post, mode }: Props) {
         date,
         description: formData.description,
         tags,
+        showInList: formData.showInList,
         project: formData.project
       });
 
@@ -176,6 +180,7 @@ export function BlogPostEditor({ post, mode }: Props) {
           tags,
           date,
           slug,
+          showInList: formData.showInList,
           project: formData.project
         })
       });
@@ -270,6 +275,7 @@ export function BlogPostEditor({ post, mode }: Props) {
                       ? frontmatter.tags.join(", ")
                       : frontmatter.tags || "",
                     date: frontmatter.date || new Date().toISOString().split('T')[0],
+                    showInList: frontmatter.showInList !== false,
                     project: frontmatter.project ? {
                       name: frontmatter.project.name || "",
                       github: frontmatter.project.github || "",
@@ -355,6 +361,21 @@ export function BlogPostEditor({ post, mode }: Props) {
                     onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
                     placeholder="nextjs, react, typescript"
                   />
+                </div>
+
+                <div className="space-y-4 mb-8">
+                  <div className="flex items-center space-x-2 mt-4">
+                    <Toggle 
+                      pressed={formData.showInList}
+                      onPressedChange={(pressed) => setFormData({...formData, showInList: pressed})}
+                      aria-label="Toggle visibility in blog listing"
+                    >
+                      Show in blog listing
+                    </Toggle>
+                    <div className="text-sm text-muted-foreground">
+                      {formData.showInList ? 'Post will appear in the blog listing' : 'Post will be hidden from the blog listing'}
+                    </div>
+                  </div>
                 </div>
 
                 <div>

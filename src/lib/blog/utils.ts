@@ -5,7 +5,7 @@ import { BlogPost, BlogPostMeta } from './types';
 
 const BLOG_DIR = path.join(process.cwd(), 'content', 'blog');
 
-export async function getBlogPosts(): Promise<BlogPostMeta[]> {
+export async function getBlogPosts(includeHidden: boolean = false): Promise<BlogPostMeta[]> {
   const posts: BlogPostMeta[] = [];
   const years = await fs.readdir(BLOG_DIR);
 
@@ -31,6 +31,7 @@ export async function getBlogPosts(): Promise<BlogPostMeta[]> {
           date: data.date,
           description: data.description,
           tags: data.tags || [],
+          showInList: data.showInList !== false, // Default to true if not specified
           project: data.project
         });
       }
@@ -38,7 +39,10 @@ export async function getBlogPosts(): Promise<BlogPostMeta[]> {
   }
 
   // Sort posts by date, newest first
-  return posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  const sortedPosts = posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  
+  // Filter out posts that should not be shown in the list unless includeHidden is true
+  return includeHidden ? sortedPosts : sortedPosts.filter(post => post.showInList !== false);
 }
 
 export async function getBlogPost(slug: string): Promise<BlogPost | null> {

@@ -5,6 +5,7 @@ export interface BlogPost {
   description: string;
   content: string;
   tags: string[];
+  showInList?: boolean;
   project?: {
     name: string;
     github?: string;
@@ -23,6 +24,7 @@ export interface BlogPostMeta {
   date: string;
   description: string;
   tags: string[];
+  showInList?: boolean;
   project?: {
     name: string;
     github?: string;

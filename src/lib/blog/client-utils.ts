@@ -3,6 +3,7 @@ interface BlogFrontmatter {
   description?: string;
   date?: string;
   tags?: string[];
+  showInList?: boolean;
   project?: {
     name: string;
     github?: string;
@@ -21,6 +22,7 @@ export function generateFrontmatter(data: {
   date: string;
   description: string;
   tags: string[];
+  showInList?: boolean;
   project?: {
     name: string;
     github?: string;
@@ -34,6 +36,10 @@ export function generateFrontmatter(data: {
     `description: "${data.description}"`,
     `tags: [${data.tags.map(tag => `"${tag}"`).join(', ')}]`
   ];
+
+  if (data.showInList === false) {
+    frontmatter.push(`showInList: false`);
+  }
 
   if (data.project) {
     frontmatter.push('project:');

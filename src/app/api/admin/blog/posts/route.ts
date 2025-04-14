@@ -40,6 +40,7 @@ export async function GET() {
             date: data.date,
             description: data.description,
             tags: data.tags || [],
+            showInList: data.showInList !== false,
             project: data.project
           });
         }
@@ -67,7 +68,7 @@ export async function POST(req: NextRequest) {
     }
 
     const data = await req.json();
-    const { title, description, content, tags, date, slug, project } = data;
+    const { title, description, content, tags, date, slug, showInList, project } = data;
 
     // Validate required fields
     if (!title || !description || !content || !date || !slug) {
@@ -102,6 +103,7 @@ export async function POST(req: NextRequest) {
       date,
       description,
       tags: tags || [],
+      ...(showInList === false && { showInList }),
       ...(project && { project })
     };
 

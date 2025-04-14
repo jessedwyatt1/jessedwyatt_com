@@ -26,7 +26,7 @@ export async function PUT(
     const { params } = context;
     const slugParams = await params;
     const data = await request.json();
-    const { title, description, content, tags, date, slug: newSlug, project } = data;
+    const { title, description, content, tags, date, slug: newSlug, showInList, project } = data;
 
     // Validate required fields
     if (!title || !description || !content || !date) {
@@ -74,6 +74,7 @@ export async function PUT(
         date,
         description,
         tags: tags || [],
+        ...(showInList === false && { showInList }),
         ...(project && { project })
       };
 
@@ -97,6 +98,7 @@ export async function PUT(
         date,
         description,
         tags: tags || [],
+        ...(showInList === false && { showInList }),
         ...(project && { project })
       };
 
