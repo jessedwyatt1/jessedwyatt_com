@@ -23,11 +23,11 @@ export function Footer() {
             <h3 className="font-semibold mb-3 text-primary">Contact</h3>
             <div className="space-y-2">
               <Link 
-                href="mailto:contact@jessedwyatt.com"
+                href="mailto:jessedwyatt@gmail.com"
                 className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
               >
                 <Mail className="h-4 w-4" />
-                contact@jessedwyatt.com
+                jessedwyatt@gmail.com
               </Link>
             </div>
           </div>
@@ -89,7 +89,7 @@ export function Footer() {
                 className="h-8 w-8 p-0 text-muted-foreground hover:text-primary hover:bg-primary/10"
                 asChild
               >
-                <a href="mailto:contact@jessedwyatt.com" target="_blank" rel="noopener noreferrer">
+                <a href="mailto:jessedwyatt@gmail.com" target="_blank" rel="noopener noreferrer">
                   <Mail className="h-4 w-4" />
                   <span className="sr-only">Email</span>
                 </a>

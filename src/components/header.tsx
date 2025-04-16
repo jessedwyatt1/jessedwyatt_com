@@ -60,7 +60,7 @@ export function Header() {
               className="h-8 w-8 p-0 text-muted-foreground hover:text-primary hover:bg-primary/10"
               asChild
             >
-              <a href="mailto:contact@jessedwyatt.com" rel="noopener noreferrer">
+              <a href="mailto:jessedwyatt@gmail.com" rel="noopener noreferrer">
                 <Mail className="h-4 w-4" />
                 <span className="sr-only">Email</span>
               </a>
